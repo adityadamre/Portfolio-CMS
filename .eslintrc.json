@@ -20,7 +20,8 @@
     "node/no-extraneous-import": "off",
     "node/file-extension-in-import": "off",
     "import/extensions": ["error", "ignorePackages", { "js": "always" }],
-    "import/first": "off"
+    "import/first": "off",
+    "import/prefer-default-export": "off"
   },
   "parserOptions": {
     "ecmaVersion": 2022,

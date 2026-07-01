@@ -25,7 +25,7 @@ const requireNonEmptyArrayForType = (blockType, fieldLabel) =>
  *
  * Each block carries only the fields relevant to its type:
  *   paragraph → text
- *   list      → style + items
+ *   list      → title + style + items
  *   image     → image (ImageSchema)
  *   note      → note.{ text, author?, variant }
  *
@@ -45,6 +45,14 @@ const contentBlockSchema = new mongoose.Schema(
         values: ['paragraph', 'list', 'image', 'note'],
         message: 'Block type "{VALUE}" is not supported.',
       },
+    },
+    title: {
+      type: String,
+      trim: true,
+    },
+    subtitle: {
+      type: String,
+      trim: true,
     },
 
     // ── paragraph ──────────────────────────────────────────────────────────
@@ -87,7 +95,7 @@ const contentBlockSchema = new mongoose.Schema(
     note: {
       type: new mongoose.Schema(
         {
-          text: {
+          content: {
             type: String,
             required: [true, 'Note text is required.'],
             trim: true,

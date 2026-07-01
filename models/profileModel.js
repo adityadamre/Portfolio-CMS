@@ -74,16 +74,13 @@ const profileSchema = new mongoose.Schema(
 );
 
 // Enforce singleton — only one Profile document may exist.
-profileSchema.pre('save', async function (next) {
+profileSchema.pre('save', async function () {
   if (this.isNew) {
     const existing = await mongoose.model('Profile').findOne();
     if (existing) {
-      return next(
-        new Error('A Profile document already exists. Use update instead.'),
-      );
+      throw new Error('A Profile document already exists. Use update instead.');
     }
   }
-  next();
 });
 
 const Profile = mongoose.model('Profile', profileSchema);

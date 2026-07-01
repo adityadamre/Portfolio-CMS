@@ -5,8 +5,14 @@ import helmet from 'helmet';
 import { rateLimit } from 'express-rate-limit';
 import mongoSanitize from 'express-mongo-sanitize';
 import hpp from 'hpp';
+import cookieParser from 'cookie-parser';
 import AppError from './utils/appError.js';
 import errorController from './controllers/errorController.js';
+import authRouter from './routes/authRoutes.js';
+import portfolioRouter from './routes/portfolioRoutes.js';
+import adminRouter from './routes/adminRoutes.js';
+import projectRouter from './routes/projectRoutes.js';
+import blogRouter from './routes/blogRoutes.js';
 
 const app = express();
 
@@ -49,6 +55,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 app.use(express.json({ limit: '10kb' }));
+app.use(cookieParser());
 
 app.use((req, res, next) => {
   req.body = mongoSanitize.sanitize(req.body);
@@ -64,7 +71,11 @@ app.use((req, res, next) => {
 
 app.use(hpp());
 
-// Routes will be added here
+app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/portfolio', portfolioRouter);
+app.use('/api/v1/admin', adminRouter);
+app.use('/api/v1/projects', projectRouter);
+app.use('/api/v1/blogs', blogRouter);
 
 app.all(/(.*)/, (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server.`, 404));

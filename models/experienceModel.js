@@ -52,6 +52,10 @@ const experienceSchema = new mongoose.Schema(
       type: [String],
       default: [],
     },
+    attachments: {
+      type: [imageSchema],
+      default: [],
+    },
     logo: {
       type: imageSchema,
     },

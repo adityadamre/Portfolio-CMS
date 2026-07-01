@@ -17,7 +17,7 @@ const skillSchema = new mongoose.Schema(
     },
     order: {
       type: Number,
-      default: 0,
+      default: 10,
     },
   },
   {

@@ -35,18 +35,16 @@ const userSchema = new mongoose.Schema(
 );
 
 // Hash password before saving if it has been modified.
-userSchema.pre('save', async function (next) {
-  if (!this.isModified('password')) return next();
+userSchema.pre('save', async function () {
+  if (!this.isModified('password')) return;
   this.password = await bcrypt.hash(this.password, 12);
-  next();
 });
 
 // Record password change timestamp (used to invalidate old JWTs).
-userSchema.pre('save', function (next) {
-  if (!this.isModified('password') || this.isNew) return next();
+userSchema.pre('save', function () {
+  if (!this.isModified('password') || this.isNew) return;
   // Subtract 1s to account for token-issuance delay
   this.passwordChangedAt = Date.now() - 1000;
-  next();
 });
 
 // Compare a candidate password against the stored hash.
