@@ -66,14 +66,13 @@ const experienceSchema = new mongoose.Schema(
 );
 
 // Custom validation to ensure endDate is provided if not a current role
-experienceSchema.pre('validate', function (next) {
+experienceSchema.pre('validate', function () {
   if (!this.current && !this.endDate) {
     this.invalidate(
       'endDate',
       'End date is required if this is not a current position.',
     );
   }
-  next();
 });
 
 const Experience = mongoose.model('Experience', experienceSchema);

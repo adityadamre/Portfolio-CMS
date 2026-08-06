@@ -6,6 +6,7 @@ import { rateLimit } from 'express-rate-limit';
 import mongoSanitize from 'express-mongo-sanitize';
 import hpp from 'hpp';
 import cookieParser from 'cookie-parser';
+
 import AppError from './utils/appError.js';
 import errorController from './controllers/errorController.js';
 import authRouter from './routes/authRoutes.js';

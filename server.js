@@ -1,5 +1,7 @@
 import dotenv from 'dotenv';
-import mongoose from 'mongoose';
+
+import connectDB from './config/db.js';
+import { connectCloudinary } from './config/cloudinary.js';
 
 dotenv.config({ path: './config.env' });
 
@@ -11,19 +13,8 @@ process.on('uncaughtException', (err) => {
 
 const { default: app } = await import('./app.js');
 
-const DB = process.env.DATABASE?.replace(
-  '<PASSWORD>',
-  process.env.DATABASE_PASSWORD || '',
-);
-
-if (DB) {
-  mongoose
-    .connect(DB)
-    .then(() => console.log('✅ DB connection successful!'))
-    .catch((err) => console.log('❌ DB connection failed:', err.message));
-} else {
-  console.log('⚠️ DATABASE not found in environment variables.');
-}
+await connectDB();
+connectCloudinary();
 
 const PORT = process.env.PORT || 3000;
 
